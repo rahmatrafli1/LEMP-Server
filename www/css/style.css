@@ -1,0 +1,365 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --text-color: #000000;
+  --container-bg: #ffffff;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --border-color: #d0d0d0;
+}
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+body.dark-mode {
+  --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  --text-color: #e0e0e0;
+  --container-bg: #2d2d2d;
+  --btn-bg: #0d6efd;
+  --btn-hover: #0a58ca;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --border-color: #404040;
+}
+
+.container {
+  max-width: 1200px;
+  width: 95%;
+  max-height: calc(100vh - 40px);
+  margin: 20px auto;
+  padding: clamp(20px, 4vw, 40px);
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.container p {
+  margin-bottom: 15px;
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 1.6;
+}
+
+.container h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  margin-bottom: 20px;
+}
+
+/* container khusus tablet */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 90%;
+    padding: clamp(15px, 3vw, 30px);
+  }
+}
+
+/* container khusus tablet dan mobile */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: clamp(15px, 3vw, 25px);
+    margin: 15px auto;
+  }
+
+  .container h1 {
+    text-align: center;
+  }
+}
+
+/* container khusus mobile kecil */
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 15px;
+    margin: 10px auto;
+  }
+
+  .container h1 {
+    text-align: center;
+  }
+
+  .container-button {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+  }
+}
+
+.container-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 2vw, 15px);
+}
+
+/* Tombol full width untuk mobile M (481px - 768px) */
+@media (max-width: 768px) {
+  .container-button {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+  }
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: clamp(14px, 1.5vw, 16px);
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--btn-bg);
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn-primary:hover {
+  background-color: var(--btn-hover);
+  cursor: pointer;
+}
+
+/* Theme Selector Container */
+.theme-selector {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background-color: var(--btn-bg);
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  position: relative;
+}
+
+.theme-toggle:hover {
+  background-color: var(--btn-hover);
+  transform: scale(1.1);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle .sun-icon,
+.theme-toggle .moon-icon,
+.theme-toggle .system-icon {
+  position: absolute;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Light mode - show sun icon (karena sedang terang) */
+body[data-theme="light"] .theme-toggle .moon-icon,
+body[data-theme="light"] .theme-toggle .system-icon {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+body[data-theme="light"] .theme-toggle .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Dark mode - show moon icon (karena sedang gelap) */
+body[data-theme="dark"] .theme-toggle .sun-icon,
+body[data-theme="dark"] .theme-toggle .system-icon {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+body[data-theme="dark"] .theme-toggle .moon-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* System mode - show system icon */
+body[data-theme="system"] .theme-toggle .sun-icon,
+body[data-theme="system"] .theme-toggle .moon-icon {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+body[data-theme="system"] .theme-toggle .system-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Theme Menu */
+.theme-menu {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+}
+
+.theme-menu.show {
+  pointer-events: auto;
+}
+
+.theme-option {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background-color: var(--btn-bg);
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  font-size: 22px;
+  opacity: 0;
+  transform: scale(0);
+  bottom: 6px;
+  right: 6px;
+}
+
+body.dark-mode .theme-option {
+  background-color: var(--btn-bg);
+}
+
+.theme-menu.show .theme-option {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Posisi melingkar untuk setiap tombol */
+.theme-option[data-theme="light"] {
+  transition-delay: 0.05s;
+}
+
+.theme-menu.show .theme-option[data-theme="light"] {
+  bottom: 70px;
+  right: 0px;
+}
+
+.theme-option[data-theme="dark"] {
+  transition-delay: 0.1s;
+}
+
+.theme-menu.show .theme-option[data-theme="dark"] {
+  bottom: 50px;
+  right: 50px;
+}
+
+.theme-option[data-theme="system"] {
+  transition-delay: 0.15s;
+}
+
+.theme-menu.show .theme-option[data-theme="system"] {
+  bottom: 0px;
+  right: 70px;
+}
+
+.theme-option:hover {
+  background-color: var(--btn-hover);
+  transform: scale(1.15);
+}
+
+.theme-option:active {
+  transform: scale(0.95);
+}
+
+.theme-option .theme-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive untuk tablet dan mobile */
+.theme-selector {
+  bottom: 15px;
+  right: 15px;
+}
+
+.theme-toggle {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.theme-menu {
+  width: 90px;
+  height: 90px;
+}
+
+.theme-option {
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  bottom: 4px;
+  right: 4px;
+}
+
+.theme-menu.show .theme-option[data-theme="light"] {
+  bottom: 60px;
+  right: 0px;
+}
+
+.theme-menu.show .theme-option[data-theme="dark"] {
+  bottom: 42px;
+  right: 42px;
+}
+
+.theme-menu.show .theme-option[data-theme="system"] {
+  bottom: 0px;
+  right: 60px;
+}

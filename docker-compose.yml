@@ -1,0 +1,42 @@
+services:
+  app:
+    build: .
+    container_name: lemp_node
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www:/var/www/html
+      - ./conf/default.conf:/etc/nginx/nginx.conf
+      - ./.env:/var/www/.env
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD_ROOT: ${DB_PASSWORD_ROOT}
+    networks:
+      - lempnet
+    restart: always
+
+  db:
+    image: mariadb:11
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - lempnet
+    restart: always
+
+networks:
+  lempnet:
+
+volumes:
+  mariadb_data:
