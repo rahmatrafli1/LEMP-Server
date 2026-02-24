@@ -7,7 +7,7 @@ if [ -f .env ]; then
 fi
 
 echo "Stopping existing containers..."
-docker compose down
+docker compose down -v
 
 echo ""
 echo "Rebuilding Docker containers..."

@@ -5,19 +5,31 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "5050:5050"
     volumes:
       - ./www:/var/www/html
       - ./conf/default.conf:/etc/nginx/nginx.conf
       - ./.env:/var/www/.env
+      - pgadmin_data:/var/lib/pgadmin
+      - pgadmin_logs:/var/log/pgadmin
     environment:
       DB_HOST: ${DB_HOST}
       DB_DATABASE: ${DB_DATABASE}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_PASSWORD_ROOT: ${DB_PASSWORD_ROOT}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     networks:
       - lempnet
     restart: always
+    depends_on:
+      - db
+      - postgres
 
   db:
     image: mariadb:11
@@ -35,8 +47,27 @@ services:
       - lempnet
     restart: always
 
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lempnet
+    restart: always
+
 networks:
   lempnet:
+    driver: bridge
 
 volumes:
   mariadb_data:
+  postgres_data:
+  pgadmin_data:
+  pgadmin_logs:
