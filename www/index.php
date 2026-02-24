@@ -41,6 +41,7 @@ loadEnv('/var/www/.env'); // Path di dalam Docker container
         <div class="container-button">
             <a href="info.php" class="btn-primary" target="_blank">View PHP Info</a>
             <a href="phpmyadmin" target="_blank" class="btn-primary">PHPMyAdmin</a>
+            <a href="pgadmin4" target="_blank" class="btn-primary">PGAdmin4</a>
         </div>
 
         <p>This is a LEMP server (Linux, Nginx, MariaDB, PHP)</p>
